@@ -4,14 +4,18 @@ import (
 	"net/http"
 	"log"
 
+	"deadrop/config"
 	"deadrop/server"
 )
 
 func main(){
-	port := ":8080"
-	log.Printf("server is running on http://localhost%s",port)
-	if err := http.ListenAndServe(port, server.NewHandler()); err != nil {
-		log.Println("server is stopped with error:",err)
-		return
+	cfg,err := config.LoadConfig()
+	if err != nil {
+		log.Fatalf("failed to load config: %v", err)
+	}
+
+	log.Printf("server is running on http://localhost%s",cfg.Port)
+	if err := http.ListenAndServe(cfg.Port, server.NewHandler()); err != nil {
+		log.Fatalf("server stopped with error: %v", err)
 	}
 }
