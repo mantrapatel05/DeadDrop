@@ -1,20 +1,21 @@
 package config
 
-import(
+import (
 	"encoding/hex"
 	"fmt"
 	"os"
 	"strings"
+
 	"github.com/joho/godotenv"
 )
 
 type Config struct {
 	EncryptionKey []byte
-	Port string
-	DatabaseURL string
+	Port          string
+	DatabaseURL   string
 }
 
-func LoadConfig() (*Config, error){
+func LoadConfig() (*Config, error) {
 	godotenv.Load()
 
 	keyHex := strings.TrimSpace(os.Getenv("ENCRYPTION_KEY"))
@@ -24,8 +25,8 @@ func LoadConfig() (*Config, error){
 	if len(keyHex) != 64 {
 		return nil, fmt.Errorf("ENCRYPTION_KEY must be 64 characters long")
 	}
-	key,err := hex.DecodeString(keyHex)
-	if err != nil{
+	key, err := hex.DecodeString(keyHex)
+	if err != nil {
 		return nil, fmt.Errorf("invalid ENCRYPTION_KEY: %w", err)
 	}
 	if len(key) != 32 {
@@ -46,7 +47,7 @@ func LoadConfig() (*Config, error){
 
 	return &Config{
 		EncryptionKey: key,
-		Port: port,
-		DatabaseURL: databaseURL,
+		Port:          port,
+		DatabaseURL:   databaseURL,
 	}, nil
 }

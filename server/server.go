@@ -1,9 +1,17 @@
 package server
 
-import "net/http"
+import (
+	"deadrop/store"
+	"net/http"
+)
 
-func NewHandler() http.Handler {
+type Server struct {
+	db *store.DB
+}
+
+func NewHandler(db *store.DB) http.Handler {
+	s := &Server{db: db}
 	mux := http.NewServeMux()
-	registerRoutes(mux)
+	s.registerRoutes(mux)
 	return mux
 }

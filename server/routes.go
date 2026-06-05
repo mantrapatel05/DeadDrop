@@ -2,7 +2,7 @@ package server
 
 import "net/http"
 
-func registerRoutes(mux *http.ServeMux) {
-	mux.HandleFunc("GET /health", health)
-	mux.HandleFunc("GET /",root)
+func (s *Server) registerRoutes(mux *http.ServeMux) {
+	mux.HandleFunc("GET /health", s.health)
+	mux.HandleFunc("GET /", s.root)
 }

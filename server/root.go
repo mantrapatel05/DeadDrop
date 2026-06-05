@@ -1,10 +1,9 @@
 package server
 
-import(
-	"net/http"
+import (
 	"encoding/json"
+	"net/http"
 )
-
 
 /*
 func root(w, r) {
@@ -14,13 +13,13 @@ func root(w, r) {
 }
 */
 
-func root(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type","application/json")
+func (s *Server) root(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
 	json.NewEncoder(w).Encode(map[string]any{
-		"service":"deadrop",
-		"version":"1.0.0",
-		"routes":[]string{
+		"service": "deadrop",
+		"version": "1.0.0",
+		"routes": []string{
 			"/health",
 			"/",
 		},

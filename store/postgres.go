@@ -8,30 +8,30 @@ import (
 	"github.com/jackc/pgx/v5/pgxpool"
 )
 
-type DB struct{
+type DB struct {
 	Pool *pgxpool.Pool
 }
 
-func Open(ctx context.Context, databaseURL string) (*DB,error) {
+func Open(ctx context.Context, databaseURL string) (*DB, error) {
 	pool, err := pgxpool.New(ctx, databaseURL)
 	if err != nil {
-		return nil, fmt.Errorf("connect postgres %w",err)
+		return nil, fmt.Errorf("connect postgres: %w", err)
 	}
 	if err := pool.Ping(ctx); err != nil {
 		pool.Close()
-		return nil, fmt.Errorf("ping postgres : %w",err)
+		return nil, fmt.Errorf("ping postgres: %w", err)
 	}
 
-	return &DB{Pool : pool}, nil
+	return &DB{Pool: pool}, nil
 }
 
-func (db *DB) Close(){
+func (db *DB) Close() {
 	db.Pool.Close()
 }
 
 func (db *DB) Migrate(ctx context.Context) error {
 	query := `
-	    CREATE TABLE IF NOT EXISTS drop(
+	    CREATE TABLE IF NOT EXISTS drops(
         id TEXT PRIMARY KEY,
         ciphertext TEXT NOT NULL,
         reveal_at TIMESTAMP,
@@ -42,9 +42,9 @@ func (db *DB) Migrate(ctx context.Context) error {
        );`
 
 	if _, err := db.Pool.Exec(ctx, query); err != nil {
-		return fmt.Errorf("create table : %w",err)
+		return fmt.Errorf("create table: %w", err)
 	}
-	   
-    log.Println("database migration complete- table ready!")
+
+	log.Println("database migration complete - table ready")
 	return nil
 }
