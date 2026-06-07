@@ -34,6 +34,7 @@ func (db *DB) Migrate(ctx context.Context) error {
 	    CREATE TABLE IF NOT EXISTS drops(
         id TEXT PRIMARY KEY,
         ciphertext TEXT NOT NULL,
+		nonce TEXT NOT NULL,
         reveal_at TIMESTAMP,
         knock_target INT,
         knock_count INT DEFAULT 0,

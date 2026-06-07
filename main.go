@@ -26,7 +26,7 @@ func main() {
 	}
 
 	log.Printf("server is running on http://localhost%s", cfg.Port)
-	if err := http.ListenAndServe(cfg.Port, server.NewHandler(db)); err != nil {
+	if err := http.ListenAndServe(cfg.Port, server.NewHandler(db, cfg.EncryptionKey)); err != nil {
 		log.Fatalf("server stopped with error: %v", err)
 	}
 }

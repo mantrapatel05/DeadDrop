@@ -20,8 +20,9 @@ func (s *Server) root(w http.ResponseWriter, r *http.Request) {
 		"service": "deadrop",
 		"version": "1.0.0",
 		"routes": []string{
-			"/health",
-			"/",
+			"GET /health",
+			"GET /",
+			"POST /drops",
 		},
 	})
 }

@@ -14,13 +14,14 @@ var errNotFound = fmt.Errorf("not found")
 
 func (s *Server) CreateDrop(ctx context.Context, drop *model.Drop) error {
 	query := `
-	INSERT INTO drops (id, ciphertext, reveal_at, knock_target, knock_count, burned, created_at)
-	VALUES ($1, $2, $3, $4, COALESCE($5, 0), COALESCE($6, false), NOW())
+	INSERT INTO drops (id, ciphertext,nonce, reveal_at, knock_target, knock_count, burned, created_at)
+	VALUES ($1, $2, $3, $4,$5, COALESCE($6, 0), COALESCE($7, false), NOW())
 	`
 
 	_, err := s.db.Pool.Exec(ctx, query,
 		drop.ID,
 		drop.Ciphertext,
+		drop.Nonce,
 		drop.RevealAt,
 		drop.KnockTarget,
 		drop.KnockCount,
@@ -34,7 +35,7 @@ func (s *Server) CreateDrop(ctx context.Context, drop *model.Drop) error {
 
 func (s *Server) GetDrop(ctx context.Context, id string) (model.Drop, error) {
 	query := `
-	SELECT id,ciphertext,reveal_at,knock_target,knock_count,burned,created_at
+	SELECT id,ciphertext,nonce,reveal_at,knock_target,knock_count,burned,created_at
 	FROM drops
 	WHERE id = $1`
 
@@ -42,6 +43,7 @@ func (s *Server) GetDrop(ctx context.Context, id string) (model.Drop, error) {
 	err := s.db.Pool.QueryRow(ctx, query, id).Scan(
 		&drop.ID,
 		&drop.Ciphertext,
+		&drop.Nonce,
 		&drop.RevealAt,
 		&drop.KnockTarget,
 		&drop.KnockCount,
