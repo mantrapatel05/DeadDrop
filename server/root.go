@@ -23,6 +23,7 @@ func (s *Server) root(w http.ResponseWriter, r *http.Request) {
 			"GET /health",
 			"GET /",
 			"POST /drops",
+			"GET /drops/{id}/status",
 		},
 	})
 }
