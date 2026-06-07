@@ -8,4 +8,5 @@ func (s *Server) registerRoutes(mux *http.ServeMux) {
 	mux.HandleFunc("POST /drops", s.createDrop)
 	mux.HandleFunc("GET /drops/{id}/status", s.status)
 	mux.HandleFunc("POST /drops/{id}/knock", s.knock)
+	mux.HandleFunc("GET /drops/{id}", s.getDrop)
 }
