@@ -6,7 +6,7 @@ import (
 )
 
 type Server struct {
-	db *store.DB
+	db            *store.DB
 	encryptionKey []byte
 }
 
